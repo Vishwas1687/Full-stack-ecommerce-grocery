@@ -1,6 +1,7 @@
-import mongoose from 'mongoose';
-import dotenv from 'dotenv';
-import colors from 'colors';
+const mongoose=require('mongoose')
+const dotenv=require('dotenv')
+const colors=require('colors')
+dotenv.config()
 const connectDB=async()=>{
     try{
         const conn=await mongoose.connect(process.env.MONGO_URL)
@@ -10,4 +11,4 @@ const connectDB=async()=>{
         console.log(`Error in connecting to the database`.bgRed.white);
     }
 }
-export default connectDB;
+module.exports=connectDB;
