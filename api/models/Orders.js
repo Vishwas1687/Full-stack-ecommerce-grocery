@@ -1,5 +1,5 @@
 const mongoose=require('mongoose')
-const {model,Schema}=require('mongoose')
+const {model,Schema}=mongoose
 const OrdersSchema=new Schema({
     order_id:{
         type:Number,

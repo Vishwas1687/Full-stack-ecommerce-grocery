@@ -1,5 +1,5 @@
 const mongoose=require('mongoose')
-const {model,Schema}=require('mongoose')
+const {model,Schema}=mongoose
 const  FeedbackSchema =new Schema({
     username:{
         type:mongoose.objectId,
