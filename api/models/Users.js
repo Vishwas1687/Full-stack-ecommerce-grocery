@@ -60,3 +60,11 @@ module.exports=model('User',UserSchema);
 //   "confirmPassword":"f",
 //   "answer":"jilebi"
 // }
+
+
+// {
+//     "email":"a@gmail.com",
+//      "password":"vishwas",
+//     "address":"20,istmainroad",
+//     "phoneNumber":"803280324"
+// }

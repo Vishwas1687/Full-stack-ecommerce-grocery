@@ -1,7 +1,5 @@
-import mongoose from 'mongoose';
-import * as mongooseSequence from 'mongoose-sequence';
-import {model,Schema} from 'mongoose';
-const sequenceSchema=mongooseSequence(mongoose);
+const mongoose=require('mongoose')
+const {model,Schema}=require('mongoose')
 const OrdersSchema=new Schema({
     order_id:{
         type:Number,
@@ -44,5 +42,5 @@ const OrdersSchema=new Schema({
         enum:["Not process","Processing","Shipping","Location Reached","Delivered","Cancelled"]
     }
 },{timestamps:true})
-OrdersSchema.plugins(sequenceSchema,{inc_field:'order_id'})
-export default model("Order",OrdersSchema);
+
+module.exports=model("Order",OrdersSchema);

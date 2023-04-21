@@ -163,4 +163,35 @@ const forgotPasswordController=async(req,res)=>{
         })
     }
 }
-module.exports = { registerController,loginController,forgotPasswordController};
+
+
+const updateProfileController=async(req,res)=>{
+  try{
+    const {password,address,phoneNumber}=req.body
+    if(!password)
+    return res.send({message:'Enter the password'})
+    if(!address)
+    return res.send({message:'Enter the address'})
+    if(!phoneNumber)
+    return res.send({message:'Enter the phone number'})
+    const existingUser=await UserModel.findById(req.user._id)
+    const hashedPassword=await bcrypt.hash(password,10)
+    const updatedUser=await UserModel.findByIdAndUpdate(existingUser._id,
+      {password:hashedPassword, address:address, phoneNumber:phoneNumber,
+    })
+
+    res.status(200).send({
+      message:'User profile updated successfully',
+      success:true,
+      updatedUser
+    })
+  } catch(error){
+    res.status(404).send({
+      message:'Something went wrong',
+      success:false,
+      error
+    })
+  }
+}
+module.exports = { registerController,loginController,
+  forgotPasswordController,updateProfileController};

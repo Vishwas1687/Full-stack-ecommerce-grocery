@@ -1,7 +1,5 @@
-import mongoose from 'mongoose';
-import * as mongooseSequence from 'mongoose-sequence';
-import {model,Schema} from 'mongoose';
-const sequenceSchema=mongooseSequence(mongoose);
+const mongoose=require('mongoose')
+const {model,Schema}=require('mongoose')
 const ProductsSchema=new Schema({
     products_id:{
         type:Number,
@@ -44,5 +42,4 @@ const ProductsSchema=new Schema({
     
    
 },{timestamps:true})
-ProductsSchema.plugins(sequenceSchema,{inc_field:'product_id'})
-export default model("Product",ProductsSchema);
+module.exports=model("Product",ProductsSchema);

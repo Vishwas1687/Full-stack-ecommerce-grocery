@@ -1,5 +1,5 @@
-import mongoose from 'mongoose';
-const {model,Schema}=mongoose;
+const mongoose=require('mongoose')
+const {model,Schema}=require('mongoose')
 const  FeedbackSchema =new Schema({
     username:{
         type:mongoose.objectId,
@@ -27,4 +27,4 @@ const  FeedbackSchema =new Schema({
 },
 {timestamps:true}
 )
-export default model('Feedback',FeedbackSchema);
+module.exports=model('Feedback',FeedbackSchema);

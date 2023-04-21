@@ -1,7 +1,5 @@
-import mongoose from 'mongoose';
-import * as mongooseSequence from 'mongoose-sequence';
-import {model,Schema} from 'mongoose';
-const sequenceSchema=mongooseSequence(mongoose);
+const mongoose=require('mongoose')
+const {model,Schema}=require('mongoose')
 const CategorySchema=new Schema({
     category_id:{
         type:Number,
@@ -22,5 +20,5 @@ const CategorySchema=new Schema({
         required:true
     }
 })
-CategorySchema.plugins(sequenceSchema,{inc_field:'category_id'})
-export default model("Category",CategorySchema);
+
+module.exports=model("Category",CategorySchema);
