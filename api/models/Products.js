@@ -1,7 +1,7 @@
 const mongoose=require('mongoose')
 const {model,Schema}=mongoose
 const ProductsSchema=new Schema({
-    products_id:{
+    product_id:{
         type:Number,
         unique:true
     },
@@ -27,19 +27,14 @@ const ProductsSchema=new Schema({
         required:true
     },
     quantity:{
-        type:mongoose.ObjectId,
-        required:true
-    },
-    photo:{
-        type:Buffer,
-        contentType:String,
-        required:true
-    },
-    stock:{
         type:Number,
         required:true
-    }
-    
+    },
+    // photo:{
+    //     type:Buffer,
+    //     contentType:String,
+    //     required:true
+    // },
    
 },{timestamps:true})
 module.exports=model("Product",ProductsSchema);
