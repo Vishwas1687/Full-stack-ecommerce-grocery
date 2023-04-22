@@ -13,12 +13,11 @@ const CategorySchema=new Schema({
         type:String,
         unique:true,
         required:true
-    },
-    photo:{
-        data:Buffer,
-        contentType:String,
-        required:true
     }
+    // photo:{
+    //     data:Buffer,
+    //     contentType:String
+    // }
 })
 
 module.exports=model("Category",CategorySchema);

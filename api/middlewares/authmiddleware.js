@@ -27,11 +27,7 @@ const isAdmin=async(req,res,next)=>{
                 success:false
             })
         }
-        res.status(200).send({
-            message:'User is the admin',
-            success:true
-        })
-        next()
+        else next()
     }catch(error)
     {
         res.status(404).send({
