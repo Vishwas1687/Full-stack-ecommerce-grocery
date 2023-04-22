@@ -7,6 +7,7 @@ const {createProductController,
     updateProductController,
     getSingleProductController, 
     getAllProductsController,deleteProductController,
+    createProController,
      getPhotoController}=require('../controllers/productController')
 
 const router=express.Router()
@@ -22,4 +23,6 @@ router.get('/get-product/:slug',getSingleProductController)
 // router.get('/get-photo/:slug',getPhotoController)
 
 router.get('/get-all-products',getAllProductsController)
+
+router.post('/create-pro',requiresSignIn,isAdmin,createProController)
 module.exports=router

@@ -1,4 +1,5 @@
 const CategoryModel=require('../models/Category')
+const categoryModel=require('../models/CatWithSubCat')
 const slugify=require('slugify')
 const fs=require('fs')
 const createCategoryController=async(req,res)=>{
@@ -121,5 +122,45 @@ const deleteCategoryController=async(req,res)=>{
       })
     }
 }
+
+const createCatController=async(req,res)=>{
+     try{
+         const {category_id,category_name,subcategories}=req.body
+         if(!category_id)
+         return res.send({message:'Enter the category id'})
+         if(!category_name)
+         return res.send({message:'Enter the category name'})
+         if(!subcategories)
+         return res.send({message:'Enter the subcategories'})
+
+         const existingCategory=await categoryModel.findOne({category_id})
+         if(existingCategory)
+         {
+            return res.status(404).send(
+               {message:'Category already exists',
+                 success:false})
+         }
+         const createCategory=await new categoryModel({
+            category_id:category_id,
+            slug:slugify(category_name),
+            category_name:category_name,
+            subcategories:subcategories
+         }).save()
+
+         res.status(200).send({
+            message:'Successfully added the category',
+            success:true,
+            createCategory
+         })
+     }catch(error){
+         res.status(404).send({
+            message:'Something went wrong',
+            success:false,
+            error:error.message
+         })
+     }
+}
+
 module.exports={createCategoryController,updateCategoryController,
-   getAllCategoryController,deleteCategoryController}
+   getAllCategoryController,deleteCategoryController
+   ,createCatController}

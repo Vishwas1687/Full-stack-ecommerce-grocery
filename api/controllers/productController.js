@@ -1,4 +1,5 @@
 const ProductModel=require('../models/Products')
+const productModel=require('../models/Pro')
 const slugify=require('slugify')
 const CategoryModel=require('../models/Category')
 
@@ -162,6 +163,58 @@ const getAllProductsController=async(req,res)=>{
           })
     }
 }
+
+const createProController=async(req,res)=>{
+   try{
+       const {product_id,product_name,mrp,sp,category,subcategory,quantity}=req.body
+       if(!product_id)
+     return res.send({message:'Enter the product id'})
+     if(!product_name)
+     return res.send({message:'Enter the product name'})
+     if(!mrp)
+     return res.send({message:'Enter the mrp'})
+     if(!sp)
+     return res.send({message:'Enter the sp'})
+     if(!category)
+     return res.send({message:'Enter the category id'})
+     if(!subcategory)
+     return res.send({message:'Enter the subcategory'})
+     if(!quantity)
+     return res.send({message:'Enter the quantity'})
+
+     const existingProduct=await productModel.findOne({product_id})
+     if(existingProduct)
+     {
+        return res.status(404).send({
+            message:'Product already exists',
+            success:false
+        })
+     }
+     
+     const newProduct=new productModel({
+        product_id:product_id,
+        product_name:product_name,
+        slug:slugify(product_name),
+        mrp:mrp,
+        sp:sp,
+        category:category,
+        subcategory:subcategory,
+        quantity:quantity
+     })
+     await newProduct.save()
+
+    res.status(200).send({
+        message:'Product is created successfully',
+        success:true,
+        newProduct
+   })}catch(error){
+       res.status(404).send({
+        message:'Something went wrong',
+        success:false,
+        error:error.message
+       })
+   }
+}
 module.exports={createProductController,updateProductController,
            deleteProductController,getSingleProductController,
-        getAllProductsController}
+        getAllProductsController,createProController}

@@ -5,6 +5,7 @@ const {requiresSignIn,isAdmin}=require('../middlewares/authmiddleware')
 const {createCategoryController,
     updateCategoryController,
     getAllCategoryController,deleteCategoryController,
+    createCatController,
      getPhotoController}=require('../controllers/categoryController')
 
 const router=express.Router()
@@ -16,6 +17,8 @@ router.put('/update-category/:slug',requiresSignIn,isAdmin,updateCategoryControl
 router.get('/get-all-categories',getAllCategoryController)
 
 router.delete('/delete-category/:slug',requiresSignIn,isAdmin,deleteCategoryController)
+
+router.post('/create-cat',requiresSignIn,isAdmin,createCatController)
 
 // router.get('/photo-category',getPhotoController)
 
