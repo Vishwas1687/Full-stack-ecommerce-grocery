@@ -1,26 +1,33 @@
-// const express=require('express')
-// const formidable=require('formidable')
-// const {requiresSignIn,isAdmin}=require('../middlewares/authmiddleware')
+const express=require('express')
+const formidable=require('express-formidable')
+const router=express.Router()
 
-// const {createCategoryController,
-//     updateCategoryController,
-//     getAllCategoryController,deleteCategoryController,
-//     createCatController,
-//      getPhotoController}=require('../controllers/categoryController')
+const {createCategoryController,
+    updateCategoryController,deleteCategoryController,
+    getAllCategoriesController,
+     getSingleCategoryController,
+    //   createSubCategoryController,
+    // updateSubCategoryController,deleteSubCategoryController
+}=require('../controllers/categoryController')
 
-// const router=express.Router()
+router.post('/create-category',createCategoryController)
 
-// router.post('/create-category',requiresSignIn,isAdmin,createCategoryController)
+router.put('/update-category/:slug',updateCategoryController)
 
-// router.put('/update-category/:slug',requiresSignIn,isAdmin,updateCategoryController)
+router.delete('/delete-category/:slug',deleteCategoryController)
 
-// router.get('/get-all-categories',getAllCategoryController)
+router.get('/get-category/:slug',getSingleCategoryController)
 
-// router.delete('/delete-category/:slug',requiresSignIn,isAdmin,deleteCategoryController)
+// router.put('/get-category/:slug/:subcategory_id/edit',updateSubCategoryController)
 
-// router.post('/create-cat',requiresSignIn,isAdmin,createCatController)
+// router.delete('/get-category/:slug/:subcategory_id/delete',deleteSubCategoryController)
 
-// // router.get('/photo-category',getPhotoController)
+// router.post('/get-category/:slug/new',createSubCategoryController)
+
+router.get('/get-all-categories',getAllCategoriesController)
+
+// router.get('/get-photo/:slug',getPhotoController)
 
 
-// module.exports=router;
+module.exports=router
+
