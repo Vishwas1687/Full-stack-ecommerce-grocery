@@ -2,7 +2,7 @@ const express=require('express')
 const colors=require('colors')
 const dotenv=require('dotenv')
 const morgan=require('morgan')
-// const authRoutes=require('./routes/authRoutes');
+const authRoutes=require('./routes/authRoutes');
 // const orderRoutes=require('./routes/orderRoutes');
 // const categoryRoutes=require('./routes/categoryRoutes');
 // const productRoutes=require('./routes/productRoutes');
@@ -25,7 +25,7 @@ app.use(express.json())
 app.use(morgan('dev'))
 app.use(cors())
 //routes
-// app.use('/api/auth',authRoutes)
+app.use('/api/auth',authRoutes)
 // app.use('/api/products',productRoutes)
 // app.use('/api/orders',orderRoutes)
 // app.use('/api/categories',categoryRoutes)

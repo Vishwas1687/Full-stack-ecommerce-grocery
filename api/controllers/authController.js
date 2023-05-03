@@ -4,7 +4,7 @@ const UserModel = require('../models/User');
 
 const registerController = async (req, res) => {
   try {
-    const {username, email, password, confirmPassword, address, phoneNumber, role ,answer} = req.body;
+    const {username, email, password, confirmPassword, phone_number,answer} = req.body;
     if(!username)
     return res.send({message:'Username is not entered'})
     if(!email)
@@ -13,9 +13,7 @@ const registerController = async (req, res) => {
     return res.send({message:'Password is not entered'})
     if(!confirmPassword)
     return res.send({message:'Password is not confirmed'})
-    if(!address)
-    return res.send({message:'Address is not entered'})
-    if(!phoneNumber)
+    if(!phone_number)
     return res.send({message:'Phone Number is not entered'})
     if(!answer)
     return res.send({message:"Enter your favourite food"})
@@ -44,9 +42,7 @@ const registerController = async (req, res) => {
       username: username,
       email: email,
       password: hashedPassword,
-      address: address,
-      phoneNumber: phoneNumber,
-      role: role,
+      phone_number: phone_number,
       answer:answer
     }).save();
 
@@ -75,7 +71,7 @@ const loginController=async(req,res)=>{
    const existingUser=await UserModel.findOne({email})
    if(!existingUser)
    {
-    return res.send(404).send({
+    return res.status(404).send({
         message:"Email does not exist",
         success:false
     })
@@ -92,13 +88,16 @@ const loginController=async(req,res)=>{
    res.status(200).send({
     success:true,
     user:{
+        _id:existingUser._id,
         username:existingUser.username,
         email:email,
-        address:existingUser.address,
-        phoneNumber:existingUser.phoneNumber,
+        addresses:existingUser.addresses,
+        recommended_products:existingUser.recommended_products,
+        phone_number:existingUser.phone_number,
         role:existingUser.role
     },
-    token:token
+    token:token,
+    message:'Logged In',
    })
    }catch(error){
     res.status(404).send({
@@ -150,8 +149,8 @@ const forgotPasswordController=async(req,res)=>{
         user:{
             username:user.username,
             email:user.email,
-            address:user.address,
-            phoneNumber:user.phoneNumber,
+            addresses:user.addresses,
+            phone_number:user.phone_number,
             role:user.role,
             answer:user.answer
         }
@@ -165,33 +164,5 @@ const forgotPasswordController=async(req,res)=>{
 }
 
 
-const updateProfileController=async(req,res)=>{
-  try{
-    const {password,address,phoneNumber}=req.body
-    if(!password)
-    return res.send({message:'Enter the password'})
-    if(!address)
-    return res.send({message:'Enter the address'})
-    if(!phoneNumber)
-    return res.send({message:'Enter the phone number'})
-    const existingUser=await UserModel.findById(req.user._id)
-    const hashedPassword=await bcrypt.hash(password,10)
-    const updatedUser=await UserModel.findByIdAndUpdate(existingUser._id,
-      {password:hashedPassword, address:address, phoneNumber:phoneNumber,
-    })
-
-    res.status(200).send({
-      message:'User profile updated successfully',
-      success:true,
-      updatedUser
-    })
-  } catch(error){
-    res.status(404).send({
-      message:'Something went wrong',
-      success:false,
-      error
-    })
-  }
-}
 module.exports = { registerController,loginController,
-  forgotPasswordController,updateProfileController};
+  forgotPasswordController};

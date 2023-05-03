@@ -1,29 +1,21 @@
-// const express=require('express')
-// const UserModel=require('../models/User')
-// const {registerController,loginController,
-//     forgotPasswordController,updateProfileController}=require('../controllers/authController')
+const express=require('express')
 
-// const {requiresSignIn,isAdmin}=require('../middlewares/authmiddleware')
-// const router=express.Router()
+const {registerController,loginController,
+    forgotPasswordController}=require('../controllers/authController')
 
-// router.post('/login',loginController)
+const {requiresSignIn,isAdmin}=require('../middlewares/authmiddleware')
+const router=express.Router()
 
-// router.post('/register',registerController)
+router.post('/login',loginController)
 
-// router.post('/forgot-password',forgotPasswordController)
+router.post('/register',registerController)
 
-// router.get('/test',requiresSignIn,isAdmin,(req,res)=>{
-//     res.send({message:'Protected Routes'})
-// })
+router.put('/forgot-password',forgotPasswordController)
+
+router.get('/test',requiresSignIn,isAdmin,(req,res)=>{
+    res.send({message:'Protected Routes'})
+})
 
 
-// router.put('/update-profile',requiresSignIn,updateProfileController)
 
-// // router.get('/get-all-orders',(req,res)=>{
-// //     res.send('To get all orders you should be and admin and sign in')
-// // })
-// // router.get('/order-status',(req,res)=>{
-// //     res.send('Only an admin can change the status of the order')
-// // })
-
-// module.exports=router;
+module.exports=router;
