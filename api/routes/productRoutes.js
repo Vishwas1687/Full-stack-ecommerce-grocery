@@ -1,28 +1,28 @@
-const express=require('express')
+// const express=require('express')
 
-const formidable=require('formidable')
-const {requiresSignIn,isAdmin}=require('../middlewares/authmiddleware')
+// const formidable=require('formidable')
+// const {requiresSignIn,isAdmin}=require('../middlewares/authmiddleware')
 
-const {createProductController,
-    updateProductController,
-    getSingleProductController, 
-    getAllProductsController,deleteProductController,
-    createProController,
-     getPhotoController}=require('../controllers/productController')
+// const {createProductController,
+//     updateProductController,
+//     getSingleProductController, 
+//     getAllProductsController,deleteProductController,
+//     createProController,
+//      getPhotoController}=require('../controllers/productController')
 
-const router=express.Router()
+// const router=express.Router()
 
-router.post('/create-product',requiresSignIn,isAdmin,createProductController)
+// router.post('/create-product',requiresSignIn,isAdmin,createProductController)
 
-router.put('/update-product/:slug',requiresSignIn,isAdmin,updateProductController)
+// router.put('/update-product/:slug',requiresSignIn,isAdmin,updateProductController)
 
-router.delete('/delete-product/:slug',requiresSignIn,isAdmin,deleteProductController)
+// router.delete('/delete-product/:slug',requiresSignIn,isAdmin,deleteProductController)
 
-router.get('/get-product/:slug',getSingleProductController)
+// router.get('/get-product/:slug',getSingleProductController)
 
-// router.get('/get-photo/:slug',getPhotoController)
+// // router.get('/get-photo/:slug',getPhotoController)
 
-router.get('/get-all-products',getAllProductsController)
+// router.get('/get-all-products',getAllProductsController)
 
-router.post('/create-pro',requiresSignIn,isAdmin,createProController)
-module.exports=router
+// router.post('/create-pro',requiresSignIn,isAdmin,createProController)
+// module.exports=router

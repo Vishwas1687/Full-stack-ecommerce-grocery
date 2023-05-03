@@ -1,6 +1,6 @@
 
 const jwt=require('jsonwebtoken')
-const UserModel=require('../models/Users')
+const UserModel=require('../models/User')
 const requiresSignIn=async(req,res,next)=>{
     try{
        const decode= jwt.verify(
