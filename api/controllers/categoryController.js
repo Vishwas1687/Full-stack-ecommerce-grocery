@@ -191,119 +191,119 @@ const getSingleCategoryController=async(req,res)=>{
     }
 }
 
-// const updateSubCategoryController = async (req, res) => {
-//   try {
-//     const {subcategory_name}=req.body;
-//     const {slug,subcategory_id}=req.params;
-//     if (!subcategory_name) {
-//       return res.send({message:'Enter subcategory name'});
-//     }
-//     const category=await CategoryModel.findOne({slug})
-//     const existingSubCategory=category.subcategories.filter((subcat)=>subcat.subcategory_id===parseInt(subcategory_id))
-//     if(!existingSubCategory)
-//     {
-//         return res.send({
-//             message:'Given subcategory cannot be updated as it does not exist',
-//             success:false
-//         })
-//     }
-//     const updatedCategory = await CategoryModel.findOneAndUpdate(
-//       {slug,'subcategories.subcategory_id':subcategory_id},
-//       {$set:{'subcategories.$.subcategory_name':subcategory_name}},{new:true}
-//     );
-//     if (!updatedCategory) {
-//       return res.send({message:'Sub category does not exist'});
-//     }
-//     res.send({
-//       message:`Sub category ${subcategory_name} successfully updated`,
-//       success:true,
-//       updatedCategory,
-//     });
-//   } catch (error) {
-//     res.send({
-//       message:'Something went wrong',
-//       success:false,
-//       error:error.message,
-//     });
-//   }
-// };
+const updateSubCategoryController = async (req, res) => {
+  try {
+    const {subcategory_name}=req.body;
+    const {slug,subcategory_id}=req.params;
+    if (!subcategory_name) {
+      return res.send({message:'Enter subcategory name'});
+    }
+    const category=await CategoryModel.findOne({slug})
+    const existingSubCategory=category.subcategories.filter((subcat)=>subcat.subcategory_id===parseInt(subcategory_id))
+    if(!existingSubCategory)
+    {
+        return res.send({
+            message:'Given subcategory cannot be updated as it does not exist',
+            success:false
+        })
+    }
+    const updatedCategory = await CategoryModel.findOneAndUpdate(
+      {slug,'subcategories.subcategory_id':subcategory_id},
+      {$set:{'subcategories.$.subcategory_name':subcategory_name}},{new:true}
+    );
+    if (!updatedCategory) {
+      return res.send({message:'Sub category does not exist'});
+    }
+    res.send({
+      message:`Sub category ${subcategory_name} successfully updated`,
+      success:true,
+      updatedCategory,
+    });
+  } catch (error) {
+    res.send({
+      message:'Something went wrong',
+      success:false,
+      error:error.message,
+    });
+  }
+};
 
-// const deleteSubCategoryController=async(req,res)=>{
-//     try{
-//        const {subcategory_id,slug}=req.params
-//        const category=await CategoryModel.findOne({slug})
-//        const existingSubCategory=category.subcategories.filter((subcat)=>subcat.subcategory_id===parseInt(subcategory_id))
-//        if(!existingSubCategory)
-//        {
-//             return res.send({
-//             message:'Sub category cannot be deleted since it does not exist',
-//             success:false
-//         })
-//        }
-//       const deletedCategory=await CategoryModel.findOneAndUpdate(
-//       {slug},{$pull:{subcategories:{subcategory_id}}},{new:true}
-//       )
+const deleteSubCategoryController=async(req,res)=>{
+    try{
+       const {subcategory_id,slug}=req.params
+       const category=await CategoryModel.findOne({slug})
+       const existingSubCategory=category.subcategories.filter((subcat)=>subcat.subcategory_id===parseInt(subcategory_id))
+       if(!existingSubCategory)
+       {
+            return res.send({
+            message:'Sub category cannot be deleted since it does not exist',
+            success:false
+        })
+       }
+      const deletedCategory=await CategoryModel.findOneAndUpdate(
+      {slug},{$pull:{subcategories:{subcategory_id}}},{new:true}
+      )
      
-//            return res.send({
-//             message:`Sub category ${subcategory_id} successfully deleted`,
-//             success:true,
-//             deletedCategory
-//        })
+           return res.send({
+            message:`Sub category ${subcategory_id} successfully deleted`,
+            success:true,
+            deletedCategory
+       })
       
-//     } catch(error)
-//     {
-//          res.send({
-//             message:'Something went wrong',
-//             success:true,
-//             error:error.message
-//          })
-//     }
-// }
+    } catch(error)
+    {
+         res.send({
+            message:'Something went wrong',
+            success:true,
+            error:error.message
+         })
+    }
+}
 
-// const createSubCategoryController=async(req,res)=>{
-//     try{
-//         const {subcategory_id,subcategory_name}=req.body
-//         const {slug}=req.params 
-//         if(!subcategory_id)
-//         return res.send({message:'Enter the subcategory id'})
-//         if(!subcategory_name)
-//         return res.send({message:'Enter the subcategory name'})
+const createSubCategoryController=async(req,res)=>{
+    try{
+        const {subcategory_id,subcategory_name}=req.body
+        const {slug}=req.params 
+        if(!subcategory_id)
+        return res.send({message:'Enter the subcategory id'})
+        if(!subcategory_name)
+        return res.send({message:'Enter the subcategory name'})
 
-//         const category=await CategoryModel.findOne({slug})
-//         if(!category)
-//         return res.send({message:'Category does not exist'})
+        const category=await CategoryModel.findOne({slug})
+        if(!category)
+        return res.send({message:'Category does not exist'})
         
-//         const existingSubCategory=category.subcategories.filter((subcat)=>subcat.subcategory_id===parseInt(subcategory_id))[0]
-//         if(existingSubCategory)
-//         {
-//             return res.send({
-//                 message:'sub category id already exists',
-//                 success:false
-//             })
-//         }
-//         const subcategory={
-//             subcategory_name,
-//             subcategory_id
-//         }
-//         category.subcategories.push(subcategory)
-//         await category.save()
+        const existingSubCategory=category.subcategories.filter((subcat)=>subcat.subcategory_id===parseInt(subcategory_id))[0]
+        if(existingSubCategory)
+        {
+            return res.send({
+                message:'sub category id already exists',
+                success:false
+            })
+        }
+        const subcategory={
+            subcategory_name,
+            subcategory_id
+        }
+        category.subcategories.push(subcategory)
+        await category.save()
 
-//         res.send({
-//             message:`Sub category ${subcategory_name} successfully created`,
-//             success:true,
-//             category
-//         })
-//     }catch(error)
-//     {
-//         res.send({
-//             message:'Something went wrong',
-//             success:false,
-//             error:error.message
-//         })
-//     }
-// }
+        res.send({
+            message:`Sub category ${subcategory_name} successfully created`,
+            success:true,
+            category
+        })
+    }catch(error)
+    {
+        res.send({
+            message:'Something went wrong',
+            success:false,
+            error:error.message
+        })
+    }
+}
 module.exports={createCategoryController,updateCategoryController,
     deleteCategoryController,getAllCategoriesController,getSingleCategoryController,
-    // , createSubCategoryController,
-    //  updateSubCategoryController,deleteSubCategoryController
+    createSubCategoryController,
+     updateSubCategoryController,deleteSubCategoryController
 }

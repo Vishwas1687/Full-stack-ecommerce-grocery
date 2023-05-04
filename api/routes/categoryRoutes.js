@@ -6,8 +6,8 @@ const {createCategoryController,
     updateCategoryController,deleteCategoryController,
     getAllCategoriesController,
      getSingleCategoryController,
-    //   createSubCategoryController,
-    // updateSubCategoryController,deleteSubCategoryController
+      createSubCategoryController,
+    updateSubCategoryController,deleteSubCategoryController
 }=require('../controllers/categoryController')
 
 router.post('/create-category',createCategoryController)
@@ -18,11 +18,11 @@ router.delete('/delete-category/:slug',deleteCategoryController)
 
 router.get('/get-category/:slug',getSingleCategoryController)
 
-// router.put('/get-category/:slug/:subcategory_id/edit',updateSubCategoryController)
+router.put('/get-category/:slug/:subcategory_id/edit',updateSubCategoryController)
 
-// router.delete('/get-category/:slug/:subcategory_id/delete',deleteSubCategoryController)
+router.delete('/get-category/:slug/:subcategory_id/delete',deleteSubCategoryController)
 
-// router.post('/get-category/:slug/new',createSubCategoryController)
+router.post('/get-category/:slug/new',createSubCategoryController)
 
 router.get('/get-all-categories',getAllCategoriesController)
 
