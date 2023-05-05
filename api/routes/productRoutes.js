@@ -1,28 +1,41 @@
-// const express=require('express')
+const express=require('express')
+const formidable=require('express-formidable')
+const router=express.Router()
 
-// const formidable=require('formidable')
-// const {requiresSignIn,isAdmin}=require('../middlewares/authmiddleware')
+const {createProductController,updateProductController,
+    //     deleteProductController,getAllProductsController,
+    // getSingleProductController,getProductsBySubCategoryController,
+    // createWeightsController,updateWeightController,deleteWeightController,
+    // getProductsByBrandController,getRelatedProductsController,getProductsBySearchController
+        }=require('../controllers/productController')
 
-// const {createProductController,
-//     updateProductController,
-//     getSingleProductController, 
-//     getAllProductsController,deleteProductController,
-//     createProController,
-//      getPhotoController}=require('../controllers/productController')
+router.post('/create-product',createProductController)
 
-// const router=express.Router()
+router.put('/update-product/:slug',updateProductController)
 
-// router.post('/create-product',requiresSignIn,isAdmin,createProductController)
+// router.delete('/delete-product/:slug',deleteProductController)
 
-// router.put('/update-product/:slug',requiresSignIn,isAdmin,updateProductController)
+// router.get('/all-products',getAllProductsController)
 
-// router.delete('/delete-product/:slug',requiresSignIn,isAdmin,deleteProductController)
+// router.get('/get-products-by-subcategory/:slug/:subcategory_id',getProductsBySubCategoryController)
 
-// router.get('/get-product/:slug',getSingleProductController)
+// router.get('/get-products-by-search/:search',getProductsBySearchController)
 
-// // router.get('/get-photo/:slug',getPhotoController)
+// router.get('/get-single-product/:slug',getSingleProductController)
 
-// router.get('/get-all-products',getAllProductsController)
+// router.post('/get-single-product/:slug/create-weights',createWeightsController)
 
-// router.post('/create-pro',requiresSignIn,isAdmin,createProController)
-// module.exports=router
+// router.put('/get-single-product/:slug/:weight_id/edit',updateWeightController)
+
+// router.delete('/get-single-product/:slug/:weight_id/delete',deleteWeightController)
+
+
+// router.get('/get-products-based-on-brand-and-subcategory-other-than-current-product/:brand/:subcategory/:slug',getProductsByBrandController)
+
+// router.get('/get-related-products-of-the-subcategory/:slug',getRelatedProductsController)
+
+//router.get('/get-products-by-filters/:args',getProductsByFilterController)
+
+// router.get('/get-photo/:slug',getPhotoController)
+
+//
