@@ -13,15 +13,15 @@ router.post('/create-product',createProductController)
 
 router.put('/update-product/:slug',updateProductController)
 
-// router.delete('/delete-product/:slug',deleteProductController)
+router.delete('/delete-product/:slug',deleteProductController)
 
-// router.get('/all-products',getAllProductsController)
+router.get('/all-products',getAllProductsController)
 
 // router.get('/get-products-by-subcategory/:slug/:subcategory_id',getProductsBySubCategoryController)
 
 // router.get('/get-products-by-search/:search',getProductsBySearchController)
 
-// router.get('/get-single-product/:slug',getSingleProductController)
+router.get('/get-single-product/:slug',getSingleProductController)
 
 // router.post('/get-single-product/:slug/create-weights',createWeightsController)
 

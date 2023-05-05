@@ -1,6 +1,6 @@
-const { response } = require('express')
+
 const slugify=require('slugify')
-// const OrderModel=require('../models/Order')
+const OrderModel=require('../models/Order')
 const CategoryModel=require('../models/Category')
 const ProductModel=require('../models/Product')
 
@@ -154,83 +154,83 @@ const updateProductController=async(req,res)=>{
     }
 }
 
-// const deleteProductController=async(req,res)=>{
-//     try{
-//        const {slug}=req.params
-//        if(!slug)
-//        return res.send({message:'Enter slug'})
-//        const existingProduct=await ProductModel.findOne({slug})
-//        if(!existingProduct)
-//        {
-//         return res.send({
-//             message:`Product ${slug} does not exist`,
-//             success:false
-//         })
-//        }
+const deleteProductController=async(req,res)=>{
+    try{
+       const {slug}=req.params
+       if(!slug)
+       return res.send({message:'Enter slug'})
+       const existingProduct=await ProductModel.findOne({slug})
+       if(!existingProduct)
+       {
+        return res.send({
+            message:`Product ${slug} does not exist`,
+            success:false
+        })
+       }
 
-//     //    const orders = await OrderModel.updateMany(
-//     //   { 'items.product': existingProduct._id },
-//     //   { $set: { 'items.$.feedback': null } },
-//     // );
+    //    const orders = await OrderModel.updateMany(
+    //   { 'items.product': existingProduct._id },
+    //   { $set: { 'items.$.feedback': null } },
+    // );
 
-//        await ProductModel.findByIdAndDelete(existingProduct._id)
-//        res.send({
-//            message:`Product ${slug} deleted successfully`,
-//            success:true
-//        })
-//     }catch(error)
-//     {
-//          res.send({
-//             message:'Something went wrong',
-//             success:false,
-//             error:error.message
-//          })
-//     }
-// }
+       await ProductModel.findByIdAndDelete(existingProduct._id)
+       res.send({
+           message:`Product ${slug} deleted successfully`,
+           success:true
+       })
+    }catch(error)
+    {
+         res.send({
+            message:'Something went wrong',
+            success:false,
+            error:error.message
+         })
+    }
+}
 
-// const getAllProductsController=async(req,res)=>{
-//      try{
-//         const products=await ProductModel.find({}).populate('category').populate('brand')
+const getAllProductsController=async(req,res)=>{
+     try{
+        const products=await ProductModel.find({}).populate('category').populate('brand')
 
-//         res.send({
-//             message:'All products are fetched',
-//             success:true,
-//             products
-//         })
-//      }catch(error)
-//      {
-//           res.send({
-//             message:'Something went wrong',
-//             success:false,
-//             error:error.message
-//           })
-//      }
-// }
+        res.send({
+            message:'All products are fetched',
+            success:true,
+            products
+        })
+     }catch(error)
+     {
+          res.send({
+            message:'Something went wrong',
+            success:false,
+            error:error.message
+          })
+     }
+}
 
-// const getSingleProductController=async(req,res)=>{
-//     try{
-//         const {slug}=req.params
-//         const existingProduct=await ProductModel.findOne({slug}).populate('category').populate('brand')
-//         if(!existingProduct)
-//         {
-//             return res.send({
-//                 message:`Product ${slug} does not exist`,
-//                 success:false
-//             })
-//         }
-//         res.send({
-//             message:`Product ${slug} successfully fetched`,
-//             success:true,
-//             existingProduct
-//         })
-//     }catch{
-//          res.send({
-//             message:'Something went wrong',
-//             success:false,
-//             error:error.message
-//          })
-//     }
-// }
+const getSingleProductController=async(req,res)=>{
+    try{
+        const {slug}=req.params
+        const existingProduct=await ProductModel.findOne({slug}).populate('category').populate('brand')
+        if(!existingProduct)
+        {
+            return res.send({
+                message:`Product ${slug} does not exist`,
+                success:false
+            })
+        }
+        res.send({
+            message:`Product ${slug} successfully fetched`,
+            success:true,
+            existingProduct
+        })
+    }catch{
+         res.send({
+            message:'Something went wrong',
+            success:false,
+            error:error.message
+         })
+    }
+}
 
 // const getProductsBySubCategoryController=async(req,res)=>{
 //     try{
@@ -551,7 +551,7 @@ const updateProductController=async(req,res)=>{
 //     }
 // }
 module.exports={createProductController,updateProductController}
-        //     deleteProductController,getAllProductsController,getSingleProductController,
-        // getProductsBySubCategoryController,createWeightsController,
+            deleteProductController,getAllProductsController,getSingleProductController
+        // ,getProductsBySubCategoryController,createWeightsController,
         // updateWeightController,deleteWeightController,getProductsByBrandController,
         // getRelatedProductsController,getProductsBySearchController}
