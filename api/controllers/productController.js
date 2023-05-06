@@ -232,53 +232,53 @@ const getSingleProductController=async(req,res)=>{
     }
 }
 
-// const getProductsBySubCategoryController=async(req,res)=>{
-//     try{
-//          const {slug,subcategory_id}=req.params
-//          if(!slug)
-//          return res.send({message:'Enter slug'})
-//          if(!subcategory_id)
-//          return res.send({message:'Enter sub category id'})
-//          const category=await CategoryModel.findOne({slug})
-//          if(!category)
-//          {
-//             return res.send({
-//                 message:`Category of the subcategory does not exist`,
-//                 success:false
-//             })
-//          }
-//          const subcategory=category.subcategories.filter((subcat)=>subcat.subcategory_id===parseInt(subcategory_id))[0]
-//           if(!subcategory)
-//           {
-//             return res.send({
-//                 message:`Sub category does not exist`,
-//                 success:false
-//             })
-//           }
+const getProductsBySubCategoryController=async(req,res)=>{
+    try{
+         const {slug,subcategory_id}=req.params
+         if(!slug)
+         return res.send({message:'Enter slug'})
+         if(!subcategory_id)
+         return res.send({message:'Enter sub category id'})
+         const category=await CategoryModel.findOne({slug})
+         if(!category)
+         {
+            return res.send({
+                message:`Category of the subcategory does not exist`,
+                success:false
+            })
+         }
+         const subcategory=category.subcategories.filter((subcat)=>subcat.subcategory_id===parseInt(subcategory_id))[0]
+          if(!subcategory)
+          {
+            return res.send({
+                message:`Sub category does not exist`,
+                success:false
+            })
+          }
 
-//           const products=await ProductModel.find({subcategory:subcategory.subcategory_name}).populate('category').populate('brand')
+          const products=await ProductModel.find({subcategory:subcategory.subcategory_name}).populate('category').populate('brand')
 
-//           if(!products)
-//           {
-//             return res.send({
-//                 message:`There are no products of the subcategory ${subcategory.subcategory_name}`,
-//                 success:true
-//             })
-//           }
+          if(!products)
+          {
+            return res.send({
+                message:`There are no products of the subcategory ${subcategory.subcategory_name}`,
+                success:true
+            })
+          }
 
-//           res.send({
-//             message:`Products of the subcategory ${subcategory.subcategory_name} is successfully fetched`,
-//             success:true,
-//             products
-//           })
-//     }catch(error){
-//          res.send({
-//             message:'Something went wrong',
-//             success:false,
-//             error:error.message
-//          })
-//     }
-// }
+          res.send({
+            message:`Products of the subcategory ${subcategory.subcategory_name} is successfully fetched`,
+            success:true,
+            products
+          })
+    }catch(error){
+         res.send({
+            message:'Something went wrong',
+            success:false,
+            error:error.message
+         })
+    }
+}
 
 // const createWeightsController=async(req,res)=>{
 //     try{
@@ -449,68 +449,68 @@ const getSingleProductController=async(req,res)=>{
 //     }
 // }
 
-// const getProductsByBrandController=async(req,res)=>{
-//     try{
-//          const {brand,subcategory,slug}=req.params
-//          if(!brand)
-//          return res.send({message:'Brand does not exist'})
-//          if(!subcategory)
-//          return res.send({message:'Enter subcategory name'})
-//          if(!slug)
-//          return res.send({message:'Slug is not entered'})
+const getProductsByBrandController=async(req,res)=>{
+    try{
+         const {brand,subcategory,slug}=req.params
+         if(!brand)
+         return res.send({message:'Brand does not exist'})
+         if(!subcategory)
+         return res.send({message:'Enter subcategory name'})
+         if(!slug)
+         return res.send({message:'Slug is not entered'})
 
-//          let products=await ProductModel.find({brand,subcategory}).populate('category').populate('brand')
+         let products=await ProductModel.find({brand,subcategory}).populate('category').populate('brand')
 
-//          products=products.filter((pro)=>pro.slug!==slug)
+         products=products.filter((pro)=>pro.slug!==slug)
 
-//          res.send({
-//             message:`Products successfully fetched`,
-//             success:true,
-//             products
-//          })
-//     }catch(error)
-//     {
-//          return res.send({
-//             message:'Something went wrong',
-//             success:false,
-//             error:error.message
-//          })
-//     }
-// }
+         res.send({
+            message:`Products successfully fetched`,
+            success:true,
+            products
+         })
+    }catch(error)
+    {
+         return res.send({
+            message:'Something went wrong',
+            success:false,
+            error:error.message
+         })
+    }
+}
 
-// const getRelatedProductsController=async(req,res)=>{
-//     try{
-//         const {slug}=req.params
-//         if(!slug)
-//         res.send({message:'Enter the slug'})
+const getRelatedProductsController=async(req,res)=>{
+    try{
+        const {slug}=req.params
+        if(!slug)
+        res.send({message:'Enter the slug'})
 
-//         const existingProduct=await ProductModel.findOne({slug}).populate('brand')
+        const existingProduct=await ProductModel.findOne({slug}).populate('brand')
 
-//         if(!existingProduct)
-//         return res.send(
-//             {message:'Product does not exist',
-//             success:false
-//              }
-//           )
+        if(!existingProduct)
+        return res.send(
+            {message:'Product does not exist',
+            success:false
+             }
+          )
 
-//         const subcategory=existingProduct.subcategory
-//         let products=await ProductModel.find({subcategory})
-//         products=products.filter((pro)=>pro.slug!==slug)
+        const subcategory=existingProduct.subcategory
+        let products=await ProductModel.find({subcategory})
+        products=products.filter((pro)=>pro.slug!==slug)
 
-//         res.send({
-//             message:'Related products of the products fetched',
-//             success:true,
-//             products
-//         })
-//     }catch(error)
-//     {
-//          res.send({
-//             message:'Something went wrong',
-//             success:false,
-//             error:error.message
-//          })
-//     }
-// }
+        res.send({
+            message:'Related products of the products fetched',
+            success:true,
+            products
+        })
+    }catch(error)
+    {
+         res.send({
+            message:'Something went wrong',
+            success:false,
+            error:error.message
+         })
+    }
+}
 
 // const getProductsBySearchController=async(req,res)=>{
 //     try{
@@ -550,8 +550,12 @@ const getSingleProductController=async(req,res)=>{
 //         })
 //     }
 // }
-module.exports={createProductController,updateProductController}
+module.exports={createProductController,updateProductController,
             deleteProductController,getAllProductsController,getSingleProductController
-        // ,getProductsBySubCategoryController,createWeightsController,
-        // updateWeightController,deleteWeightController,getProductsByBrandController,
-        // getRelatedProductsController,getProductsBySearchController}
+        ,getProductsBySubCategoryController,
+        //   createWeightsController,
+        // updateWeightController,deleteWeightController,
+        getProductsByBrandController,
+        getRelatedProductsController
+        // ,getProductsBySearchController
+     }

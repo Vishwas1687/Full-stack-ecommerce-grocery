@@ -3,10 +3,12 @@ const formidable=require('express-formidable')
 const router=express.Router()
 
 const {createProductController,updateProductController,
-    //     deleteProductController,getAllProductsController,
-    // getSingleProductController,getProductsBySubCategoryController,
+        deleteProductController,getAllProductsController,
+    // getSingleProductController,
+    getProductsBySubCategoryController,
     // createWeightsController,updateWeightController,deleteWeightController,
-    // getProductsByBrandController,getRelatedProductsController,getProductsBySearchController
+    getProductsByBrandController,getRelatedProductsController,
+    // getProductsBySearchController
         }=require('../controllers/productController')
 
 router.post('/create-product',createProductController)
@@ -17,7 +19,7 @@ router.delete('/delete-product/:slug',deleteProductController)
 
 router.get('/all-products',getAllProductsController)
 
-// router.get('/get-products-by-subcategory/:slug/:subcategory_id',getProductsBySubCategoryController)
+router.get('/get-products-by-subcategory/:slug/:subcategory_id',getProductsBySubCategoryController)
 
 // router.get('/get-products-by-search/:search',getProductsBySearchController)
 
@@ -30,9 +32,9 @@ router.get('/get-single-product/:slug',getSingleProductController)
 // router.delete('/get-single-product/:slug/:weight_id/delete',deleteWeightController)
 
 
-// router.get('/get-products-based-on-brand-and-subcategory-other-than-current-product/:brand/:subcategory/:slug',getProductsByBrandController)
+router.get('/get-products-based-on-brand-and-subcategory-other-than-current-product/:brand/:subcategory/:slug',getProductsByBrandController)
 
-// router.get('/get-related-products-of-the-subcategory/:slug',getRelatedProductsController)
+router.get('/get-related-products-of-the-subcategory/:slug',getRelatedProductsController)
 
 //router.get('/get-products-by-filters/:args',getProductsByFilterController)
 
