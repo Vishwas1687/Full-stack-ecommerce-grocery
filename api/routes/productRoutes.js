@@ -4,9 +4,9 @@ const router=express.Router()
 
 const {createProductController,updateProductController,
         deleteProductController,getAllProductsController,
-    // getSingleProductController,
+    getSingleProductController,
     getProductsBySubCategoryController,
-    // createWeightsController,updateWeightController,deleteWeightController,
+    createWeightsController,updateWeightController,deleteWeightController,
     getProductsByBrandController,getRelatedProductsController,
     // getProductsBySearchController
         }=require('../controllers/productController')
@@ -25,11 +25,11 @@ router.get('/get-products-by-subcategory/:slug/:subcategory_id',getProductsBySub
 
 router.get('/get-single-product/:slug',getSingleProductController)
 
-// router.post('/get-single-product/:slug/create-weights',createWeightsController)
+router.post('/get-single-product/:slug/create-weights',createWeightsController)
 
-// router.put('/get-single-product/:slug/:weight_id/edit',updateWeightController)
+router.put('/get-single-product/:slug/:weight_id/edit',updateWeightController)
 
-// router.delete('/get-single-product/:slug/:weight_id/delete',deleteWeightController)
+router.delete('/get-single-product/:slug/:weight_id/delete',deleteWeightController)
 
 
 router.get('/get-products-based-on-brand-and-subcategory-other-than-current-product/:brand/:subcategory/:slug',getProductsByBrandController)

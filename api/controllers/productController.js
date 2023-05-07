@@ -280,174 +280,174 @@ const getProductsBySubCategoryController=async(req,res)=>{
     }
 }
 
-// const createWeightsController=async(req,res)=>{
-//     try{
-//        const {weight_id,weight,weight_units,mrp,sp,stock}=req.body
-//        const {slug}=req.params
-//        if(!weight_id)
-//        return res.send({message:'Enter the weight id'})
-//        if(!weight)
-//        return res.send({message:'Enter the weight'})
-//        if(!weight_units)
-//        return res.send({message:'Enter the weight units'})
-//        if(!mrp)
-//        return res.send({message:'Enter the mrp'})
-//        if(!sp)
-//        return res.send({message:'Enter the sp'})
-//        if(!stock)
-//        return res.send({message:'Enter the stock'})
-//        if(!slug)
-//        return res.send({message:'Enter the slug'})
+const createWeightsController=async(req,res)=>{
+    try{
+       const {weight_id,weight,weight_units,mrp,sp,stock}=req.body
+       const {slug}=req.params
+       if(!weight_id)
+       return res.send({message:'Enter the weight id'})
+       if(!weight)
+       return res.send({message:'Enter the weight'})
+       if(!weight_units)
+       return res.send({message:'Enter the weight units'})
+       if(!mrp)
+       return res.send({message:'Enter the mrp'})
+       if(!sp)
+       return res.send({message:'Enter the sp'})
+       if(!stock)
+       return res.send({message:'Enter the stock'})
+       if(!slug)
+       return res.send({message:'Enter the slug'})
 
-//        const existingProduct=await ProductModel.findOne({slug})
-//        if(!existingProduct)
-//        {
-//         return res.send({
-//             message:'Product does not exist',
-//             success:false,
-//         })
-//        }
+       const existingProduct=await ProductModel.findOne({slug})
+       if(!existingProduct)
+       {
+        return res.send({
+            message:'Product does not exist',
+            success:false,
+        })
+       }
 
-//        const Weight=existingProduct.weights.filter((w)=>w.weight_id===weight_id)[0]
-//        if(Weight)
-//        {
-//           return res.send({
-//             message:'Weight id already exists',
-//             success:false
-//           })
-//        }
+       const Weight=existingProduct.weights.filter((w)=>w.weight_id===weight_id)[0]
+       if(Weight)
+       {
+          return res.send({
+            message:'Weight id already exists',
+            success:false
+          })
+       }
        
-//        const newWeight={
-//            weight_id:weight_id,
-//            weight:weight,
-//            weight_units:weight_units,
-//            mrp:mrp,
-//            sp:sp,
-//            stock:stock
-//        }
+       const newWeight={
+           weight_id:weight_id,
+           weight:weight,
+           weight_units:weight_units,
+           mrp:mrp,
+           sp:sp,
+           stock:stock
+       }
 
-//        existingProduct.weights.push(newWeight)
+       existingProduct.weights.push(newWeight)
 
-//        await existingProduct.save()
+       await existingProduct.save()
 
-//        res.send({
-//         message:`Weight for the product is successfully added`,
-//         success:true,
-//         existingProduct
-//        })
+       res.send({
+        message:`Weight for the product is successfully added`,
+        success:true,
+        existingProduct
+       })
 
 
-//     }catch(error)
-//     {
-//           res.send({
-//             message:'Something went wrong',
-//             success:false,
-//             error:error.message
-//           })
-//     }
-// }
+    }catch(error)
+    {
+          res.send({
+            message:'Something went wrong',
+            success:false,
+            error:error.message
+          })
+    }
+}
 
-// const updateWeightController=async(req,res)=>{
-//     try{
-//        const {weight,weight_units,mrp,sp,stock}=req.body
-//        const {slug,weight_id}=req.params
-//        if(!weight)
-//        return res.send({message:'Enter the weight'})
-//        if(!weight_units)
-//        return res.send({message:'Enter the weight units'})
-//        if(!mrp)
-//        return res.send({message:'Enter the mrp'})
-//        if(!sp)
-//        return res.send({message:'Enter the sp'})
-//        if(!stock)
-//        return res.send({message:'Enter the stock'})
-//        if(!slug)
-//        return res.send({message:'Enter the slug'})
+const updateWeightController=async(req,res)=>{
+    try{
+       const {weight,weight_units,mrp,sp,stock}=req.body
+       const {slug,weight_id}=req.params
+       if(!weight)
+       return res.send({message:'Enter the weight'})
+       if(!weight_units)
+       return res.send({message:'Enter the weight units'})
+       if(!mrp)
+       return res.send({message:'Enter the mrp'})
+       if(!sp)
+       return res.send({message:'Enter the sp'})
+       if(!stock)
+       return res.send({message:'Enter the stock'})
+       if(!slug)
+       return res.send({message:'Enter the slug'})
 
-//        const existingProduct=await ProductModel.findOne({slug})
-//        if(!existingProduct)
-//        {
-//         return res.send({
-//             message:'Product does not exist',
-//             success:false,
-//         })
-//        }
+       const existingProduct=await ProductModel.findOne({slug})
+       if(!existingProduct)
+       {
+        return res.send({
+            message:'Product does not exist',
+            success:false,
+        })
+       }
 
-//        const existingWeight=existingProduct.weights.filter((w)=>w.weight_id===parseInt(weight_id))[0]
-//        if(!existingWeight)
-//        {
-//         return res.send({
-//             message:`Weight with ${existingWeight.weight_id} does not exist`,
-//             success:false
-//         })
-//        }
+       const existingWeight=existingProduct.weights.filter((w)=>w.weight_id===parseInt(weight_id))[0]
+       if(!existingWeight)
+       {
+        return res.send({
+            message:`Weight with ${existingWeight.weight_id} does not exist`,
+            success:false
+        })
+       }
 
-//        const updatedProduct=await ProductModel.findOneAndUpdate({
-//         slug,"weights.weight_id":weight_id},{
-//             $set:{"weights.$.weight":weight,"weights.$.weight_units":weight_units,
-//              "weights.$.mrp":mrp,"weights.$.sp":sp,"weights.$.stock":stock}
-//         },{new:true}
-//        )
+       const updatedProduct=await ProductModel.findOneAndUpdate({
+        slug,"weights.weight_id":weight_id},{
+            $set:{"weights.$.weight":weight,"weights.$.weight_units":weight_units,
+             "weights.$.mrp":mrp,"weights.$.sp":sp,"weights.$.stock":stock}
+        },{new:true}
+       )
 
-//        res.send({
-//         message:`Weight ${(updatedProduct.weights.filter((w)=>w.weight===weight))[0].weight} ${(updatedProduct.weights.filter((w)=>w.weight_units===weight_units))[0].weight_units} of the product ${updatedProduct.product_name} is successfully updated`,
-//         success:true,
-//         updatedProduct
-//        })
+       res.send({
+        message:`Weight ${(updatedProduct.weights.filter((w)=>w.weight===weight))[0].weight} ${(updatedProduct.weights.filter((w)=>w.weight_units===weight_units))[0].weight_units} of the product ${updatedProduct.product_name} is successfully updated`,
+        success:true,
+        updatedProduct
+       })
 
-//     }catch(error)
-//     {
-//           res.send({
-//             message:'Something went wrong',
-//             success:false,
-//             error:error.message
-//           })
-//     }
-// }
+    }catch(error)
+    {
+          res.send({
+            message:'Something went wrong',
+            success:false,
+            error:error.message
+          })
+    }
+}
 
-// const deleteWeightController=async(req,res)=>{
-//     try{
-//         const {slug,weight_id}=req.params
-//         if(!slug)
-//         return res.send({message:'Enter slug'})
-//         if(!weight_id)
-//         return res.send({message:'Enter weight id'})
-//         const existingProduct=await ProductModel.findOne({slug})
-//         if(!existingProduct)
-//         {
-//             return res.send({
-//                 message:`Product ${slug} does not exist`,
-//                 success:false
-//             })
-//         }
+const deleteWeightController=async(req,res)=>{
+    try{
+        const {slug,weight_id}=req.params
+        if(!slug)
+        return res.send({message:'Enter slug'})
+        if(!weight_id)
+        return res.send({message:'Enter weight id'})
+        const existingProduct=await ProductModel.findOne({slug})
+        if(!existingProduct)
+        {
+            return res.send({
+                message:`Product ${slug} does not exist`,
+                success:false
+            })
+        }
 
-//         const existingWeight=existingProduct.weights.filter((w)=>w.weight_id===parseInt(weight_id))[0]
-//         if(!existingWeight)
-//         {
-//             return res.send({
-//                 message:`Weight of the product does not exist`,
-//                 success:false
-//             })
-//         }
+        const existingWeight=existingProduct.weights.filter((w)=>w.weight_id===parseInt(weight_id))[0]
+        if(!existingWeight)
+        {
+            return res.send({
+                message:`Weight of the product does not exist`,
+                success:false
+            })
+        }
 
-//         await ProductModel.findOneAndUpdate({
-//             slug,"weights.weight_id":weight_id},{
-//                 $pull:{weights:{weight_id}}
-//             },{new:true})
+        await ProductModel.findOneAndUpdate({
+            slug,"weights.weight_id":weight_id},{
+                $pull:{weights:{weight_id}}
+            },{new:true})
 
-//         res.send({
-//             message:`Weight with ${weight_id} id of product ${slug} successfully deleted`,
-//             success:true
-//         })   
-//     }catch(error)
-//     {
-//          res.send({
-//             message:'Something went wrong',
-//             success:false,
-//             error:error.message
-//          })
-//     }
-// }
+        res.send({
+            message:`Weight with ${weight_id} id of product ${slug} successfully deleted`,
+            success:true
+        })   
+    }catch(error)
+    {
+         res.send({
+            message:'Something went wrong',
+            success:false,
+            error:error.message
+         })
+    }
+}
 
 const getProductsByBrandController=async(req,res)=>{
     try{
@@ -553,8 +553,8 @@ const getRelatedProductsController=async(req,res)=>{
 module.exports={createProductController,updateProductController,
             deleteProductController,getAllProductsController,getSingleProductController
         ,getProductsBySubCategoryController,
-        //   createWeightsController,
-        // updateWeightController,deleteWeightController,
+          createWeightsController,
+        updateWeightController,deleteWeightController,
         getProductsByBrandController,
         getRelatedProductsController
         // ,getProductsBySearchController
