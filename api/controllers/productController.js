@@ -1,25 +1,23 @@
-
+const { response } = require('express')
 const slugify=require('slugify')
-const OrderModel=require('../models/Order')
+// const OrderModel=require('../models/Order')
 const CategoryModel=require('../models/Category')
+const fs=require('fs')
 const ProductModel=require('../models/Product')
 
 const createProductController=async(req,res)=>{
     try{
-    const {product_name,seller_id,brand,total_reviews, total_ratings,
-        rating,weights,category,subcategory,tags}=req.body
+    const {product_name,seller_id,brand,
+        category,subcategory}=req.fields
+    const weights=JSON.parse(req.fields.weights)
+    const tags=JSON.parse(req.fields.tags) 
+    const {photo} =req.files    
     if(!product_name)
     return res.send({message:'Enter product name'})
     if(!seller_id)
     return res.send({message:'Enter seller id'})
     if(!brand)
     return res.send({message:'Enter brand name'})
-    if(!total_reviews)
-    return res.send({message:'Enter total reviews'})
-    if(!rating)
-    return res.send({message:'Enter rating'})
-    if(!total_ratings)
-    return res.send({message:'Enter total ratings'})
     if(!weights)
     return res.send({message:'Enter weights'})
     if(!category)
@@ -28,8 +26,10 @@ const createProductController=async(req,res)=>{
     return res.send({message:'Enter subcategory'})
     if(!tags)
     return res.send({message:'Enter the tags'})
+    if(photo && photo.size > 1000000)
+    return res.send({message:'Photo should be entered'})
 
-    const existingProduct=await ProductModel.findOne({product_name}).populate('brand')
+    const existingProduct=await ProductModel.findOne({product_name}).select("-photo").populate('brand')
     if(existingProduct)
     {
         return res.send({
@@ -52,25 +52,37 @@ const createProductController=async(req,res)=>{
         slug:slugify(product_name),
         seller_id:seller_id,
         brand:brand,
-        total_reviews:total_reviews,
-        rating:rating,
-        total_ratings:total_ratings,
-        weights:weights,
         category:category,
         subcategory:subcategory,
+        weights:weights,
         tags:tags
-    }).save()
+    })
 
+    const product=newProduct
+    if(photo && photo.path){
+     newProduct.photo.data=fs.readFileSync(photo.path)
+    newProduct.photo.contentType=photo.type
+    }
+    else{
+        return res.send({
+            message:'Error in phot path',
+            success:false
+        })
+    }
+    
+
+    await newProduct.save()
     res.send({
         message:`Product ${newProduct.product_name} is created successfully`,
         success:true,
-        newProduct
+        product
     })
 
     }catch(error)
     {
+        console.log(error)
         res.send({
-            message:'Something went wrong',
+            message:'Something did go wrong',
             success:false,
             error:error.message
         })
@@ -79,8 +91,11 @@ const createProductController=async(req,res)=>{
 
 const updateProductController=async(req,res)=>{
     try{
-    const {product_name,seller_id,brand,total_reviews, total_ratings,
-        rating,weights,category,subcategory,tags}=req.body
+    const {product_name,seller_id,brand,
+        category,subcategory}=req.fields
+    const weights=JSON.parse(req.fields.weights) 
+    const tags=JSON.parse(req.fields.tags)   
+    const {photo}=req.files    
     const {slug}=req.params
     if(!product_name)
     return res.send({message:'Enter product name'})
@@ -88,12 +103,6 @@ const updateProductController=async(req,res)=>{
     return res.send({message:'Enter seller id'})
     if(!brand)
     return res.send({message:'Enter brand name'})
-    if(!total_reviews)
-    return res.send({message:'Enter total reviews'})
-    if(!rating)
-    return res.send({message:'Enter rating'})
-    if(!total_ratings)
-    return res.send({message:'Enter total ratings'})
     if(!weights)
     return res.send({message:'Enter weights'})
     if(!category)
@@ -104,6 +113,8 @@ const updateProductController=async(req,res)=>{
     return res.send({message:'Enter the tags'})
     if(!slug)
     return res.send({message:'Enter the slug'})
+    if(!photo)
+    return res.send({message:'Enter the photo'})
 
     const existingProduct=await ProductModel.findOne({slug}).populate('brand')
     if(!existingProduct)
@@ -129,14 +140,20 @@ const updateProductController=async(req,res)=>{
         slug:slugify(product_name),
         seller_id:seller_id,
         brand:brand.brand_name,
-        total_reviews:total_reviews,
-        rating:rating,
-        total_ratings:total_ratings,
         weights:weights,
         category:category,
         subcategory:subcategory,
-        tags:tags
-    })
+        photo:{
+            data:fs.readFileSync(photo.path),
+            contentType:photo.type
+        },
+        tags:tags,
+    },{new:true})
+
+     
+
+
+    await updatedProduct.save()
 
     res.send({
         message:`Product ${updatedProduct.product_name} is updated successfully`,
@@ -146,8 +163,9 @@ const updateProductController=async(req,res)=>{
 
     }catch(error)
     {
+        console.log(error)
         res.send({
-            message:'Something went wrong',
+            message:'Something did go wrong',
             success:false,
             error:error.message
         })
@@ -190,7 +208,7 @@ const deleteProductController=async(req,res)=>{
 
 const getAllProductsController=async(req,res)=>{
      try{
-        const products=await ProductModel.find({}).populate('category').populate('brand')
+        const products=await ProductModel.find({}).select("-photo").populate('category').populate('brand')
 
         res.send({
             message:'All products are fetched',
@@ -229,6 +247,29 @@ const getSingleProductController=async(req,res)=>{
             success:false,
             error:error.message
          })
+    }
+}
+
+const getPhotoController=async(req,res)=>{
+    try{
+        const {slug}=req.params
+        const product=await ProductModel.findOne({slug}).select("photo")
+        if(!product.photo.data)
+        {
+            return res.send({
+                message:'Photo does not exist',
+                success:false
+            })
+        }
+        res.set("Content-type",product.photo.contentType)
+        res.send(product.photo.data)
+    }catch(error)
+    {
+       res.send({
+        message:'Something went wrong',
+        success:false,
+        error:error.message
+       })
     }
 }
 
@@ -390,7 +431,7 @@ const updateWeightController=async(req,res)=>{
        )
 
        res.send({
-        message:`Weight ${(updatedProduct.weights.filter((w)=>w.weight===weight))[0].weight} ${(updatedProduct.weights.filter((w)=>w.weight_units===weight_units))[0].weight_units} of the product ${updatedProduct.product_name} is successfully updated`,
+        message:`Weight successfully updated`,
         success:true,
         updatedProduct
        })
@@ -478,6 +519,47 @@ const getProductsByBrandController=async(req,res)=>{
     }
 }
 
+const getSingleWeightController=async(req,res)=>{
+    try{
+        const {slug,weight_id}=req.params
+        if(!slug)
+        return res.send({message:"Enter slug"})
+        if(!weight_id)
+        return res.send({message:'Enter the weight id'})
+
+        const product=await ProductModel.findOne({slug})
+        if(!product)
+        {
+            return res.send({
+                message:'Product does not exist',
+                success:false,
+            })
+        }
+
+        const weight=product.weights.filter((weight)=>weight.weight_id===parseInt(weight_id))[0]
+        if(!weight)
+        {
+            return res.send({
+                message:'Weight does not exist',
+                success:false
+            })
+        }
+
+        res.send({
+            message:"Weight information is fetched",
+            success:true,
+            weights:weight
+        })
+    }catch(error)
+    {
+         res.send({
+            message:'Something went wrong',
+            success:false,
+            error:error.message
+         })
+    }
+}
+
 const getRelatedProductsController=async(req,res)=>{
     try{
         const {slug}=req.params
@@ -512,50 +594,47 @@ const getRelatedProductsController=async(req,res)=>{
     }
 }
 
-// const getProductsBySearchController=async(req,res)=>{
-//     try{
-//          const {search}=req.params
-//          if(!search)
-//          res.send({message:'Search is not entered'})
+const getProductsBySearchController=async(req,res)=>{
+    try{
+         const {search}=req.params
+         if(!search)
+         res.send({message:'Search is not entered'})
 
-//          const products=await ProductModel.find({
-//             $or:[
-//                 {
-//                     tags:{$in:[search]},
-//                 },
-//                 {
-//                     product_name:{$regex:search,$options:'i'}
-//                 }
-//             ]}).populate('category').populate('brand')
+         const products=await ProductModel.find({
+            $or:[
+                {
+                    tags:{$in:[search]},
+                },
+                {
+                    product_name:{$regex:search,$options:'i'}
+                }
+            ]}).populate('category').populate('brand')
 
-//           if(products.length==0)
-//           {
-//             return res.send({
-//                 message:'No products found',
-//                 success:true
-//             })
-//           }
+          if(products.length==0)
+          {
+            return res.send({
+                message:'No products found',
+                success:true
+            })
+          }
 
-//           res.send({
-//             message:'Product successfully fetched',
-//             success:true,
-//             products
-//           })
-//     }catch(error)
-//     {
-//         res.send({
-//             message:'Something went wrong',
-//             success:false,
-//             error:error.message
-//         })
-//     }
-// }
+          res.send({
+            message:'Product successfully fetched',
+            success:true,
+            products
+          })
+    }catch(error)
+    {
+        res.send({
+            message:'Something went wrong',
+            success:false,
+            error:error.message
+        })
+    }
+}
 module.exports={createProductController,updateProductController,
-            deleteProductController,getAllProductsController,getSingleProductController
-        ,getProductsBySubCategoryController,
-          createWeightsController,
-        updateWeightController,deleteWeightController,
-        getProductsByBrandController,
-        getRelatedProductsController
-        // ,getProductsBySearchController
-     }
+            deleteProductController,getAllProductsController,getSingleProductController,
+        getProductsBySubCategoryController,createWeightsController,
+        updateWeightController,deleteWeightController,getProductsByBrandController,
+        getRelatedProductsController,getProductsBySearchController,getPhotoController,
+        getSingleWeightController}

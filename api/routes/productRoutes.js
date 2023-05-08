@@ -8,7 +8,7 @@ const {createProductController,updateProductController,
     getProductsBySubCategoryController,
     createWeightsController,updateWeightController,deleteWeightController,
     getProductsByBrandController,getRelatedProductsController,
-    // getProductsBySearchController
+    getProductsBySearchController
         }=require('../controllers/productController')
 
 router.post('/create-product',createProductController)
@@ -21,7 +21,7 @@ router.get('/all-products',getAllProductsController)
 
 router.get('/get-products-by-subcategory/:slug/:subcategory_id',getProductsBySubCategoryController)
 
-// router.get('/get-products-by-search/:search',getProductsBySearchController)
+router.get('/get-products-by-search/:search',getProductsBySearchController)
 
 router.get('/get-single-product/:slug',getSingleProductController)
 
@@ -38,6 +38,6 @@ router.get('/get-related-products-of-the-subcategory/:slug',getRelatedProductsCo
 
 //router.get('/get-products-by-filters/:args',getProductsByFilterController)
 
-// router.get('/get-photo/:slug',getPhotoController)
+router.get('/get-photo/:slug',getPhotoController)
 
-//
+module.exports=router

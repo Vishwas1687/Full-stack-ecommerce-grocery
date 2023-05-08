@@ -44,12 +44,6 @@ const ProductSchema=new Schema({
         default:0
     },
 
-    // seller_id:{
-    //    type:mongoose.ObjectId,
-    //    ref:"Seller",
-    //    required:true
-    // },
-
     slug:{
         type:String,
         required:true,
@@ -60,21 +54,22 @@ const ProductSchema=new Schema({
         ref:'Brand',
         required:true
     },
-    total_reviews:{
-        type:Number,
-        default:0
-    },
-    rating:{
-        type:Number,
-        default:2.5
-    },
-    total_ratings:{
-        type:Number,
-        default:0
-    },
     weights:{
        type:[WeightsSchema],
-       required:true
+       required:true,
+       validate:{
+        validator:async function(weights){
+            const weightIds=new Set()
+            for(const weight of weights)
+            {
+                if(weightIds.has(weight.weight_id))
+                return false
+                weightIds.add(weight.weight_id)
+            }
+            return true
+        },
+        message:`Weight ids are not a valid weight id`
+       }
     },
     category:{
         type:mongoose.ObjectId,
@@ -91,16 +86,16 @@ const ProductSchema=new Schema({
                 return category.subcategories.some((sub) => sub.subcategory_name === v);
             },
             message:props=>`${props.value} is not a valid subcategory of this category`
-        }
+        },
     },
     tags:{
         type:[String],
         required:true
+    },
+      photo:{
+        data:Buffer,
+        contentType:String
     }
-      // photo:{
-    //     data:Buffer,
-    //     contentType:String
-    // }
 
 },{timestamps:true})
 
