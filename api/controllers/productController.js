@@ -18,13 +18,13 @@ const createProductController=async(req,res)=>{
     return res.send({message:'Enter seller id'})
     if(!brand)
     return res.send({message:'Enter brand name'})
-    if(!weights)
+    if(weights.length===0)
     return res.send({message:'Enter weights'})
     if(!category)
     return res.send({message:'Enter category'})
     if(!subcategory)
     return res.send({message:'Enter subcategory'})
-    if(!tags)
+    if(tags.length===0)
     return res.send({message:'Enter the tags'})
     if(photo && photo.size > 1000000)
     return res.send({message:'Photo should be entered'})
@@ -641,13 +641,16 @@ const getAllProductsByFiltersController=async(req,res)=>{
             const minimumPrice=priceFilters[0]
             const maximumPrice=priceFilters[1]
             const priceProducts=await ProductModel.find({
-                "weights.sp":{
-                  
+                weights:{
+                    $elemMatch:
+                        {sp:{
                             $gte:minimumPrice,
                             $lte:maximumPrice
-                        }
-                        
                     }
+                }
+            }
+                        
+        }
             ).select('-photo').populate('category').populate('brand')
             products=priceProducts
         }
